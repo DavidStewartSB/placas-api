@@ -1,5 +1,6 @@
+import { DeleteResult, UpdateResult } from "typeorm"
 import { PlacaService } from "./../services/feed.service"
-import { Body, Controller, Get, Post } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common"
 import { Observable } from "rxjs"
 import { PlacaPost } from "../models"
 
@@ -20,5 +21,18 @@ export class PlacaController {
   @Get(":id")
   getOne(placa: PlacaPost): Observable<PlacaPost> {
     return this.placaService.getOne(placa)
+  }
+
+  @Put(":id")
+  updatePost(
+    @Param("id") id: number,
+    @Body() placas: PlacaPost,
+  ): Observable<UpdateResult> {
+    return this.placaService.updatePost(id, placas)
+  }
+
+  @Delete(":id")
+  deletePost(@Param("id") id: number): Observable<DeleteResult> {
+    return this.placaService.deletePost(id)
   }
 }
